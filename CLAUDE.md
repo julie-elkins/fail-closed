@@ -88,6 +88,17 @@ reason string says whether it did so for the right reason.
    public copies can drift, and the drift is silent because neither knows about the other.
    Editing that standard is a two-place change, canonical first. **Not enforced**; the check is
    a diff against the canonical README.
+6. **Every `PreToolUse` registration in this repository must set `"onFailure": "block"`, and
+   there are FOUR of them.** `hooks/hooks.json` (what the plugin registers), `.claude/settings.json`
+   (what this repo runs on itself), `templates/settings.json.template` and
+   `templates/project-settings.json.template`. **Without that key a guard fails OPEN:** a hook
+   whose script is missing or broken is a *non-blocking* error, so Claude Code reports it and runs
+   the command anyway. Shipping a refusal guard without it is this repository contradicting its own
+   name in the one file that configures it — which is exactly what it did until 2026-10-16, while
+   the author's own four live guards all had it set. **Not enforced**; the check is
+   `grep -L onFailure hooks/hooks.json .claude/settings.json templates/*.json.template`, which must
+   print nothing. Do **not** set it on `SessionStart` — that event cannot block.
+
 ## Things measured untrustworthy
 
 - **The staging guard's coverage.** It sees the Bash tool only — not your terminal, not

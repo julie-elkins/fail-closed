@@ -6,7 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/usr/bin/python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/refuse-dangerous-staging.py\""
+            "command": "/usr/bin/python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/refuse-dangerous-staging.py\"",
+            "onFailure": "block"
           }
         ]
       }

@@ -150,6 +150,22 @@ One `PreToolUse` hook on the `Bash` matcher, running
 substitutes the placeholder; the hook itself is `templates/hooks/refuse-dangerous-staging.py`,
 and `templates/project-settings.md` covers the per-repository copy.
 
+**`"onFailure": "block"` is the single most important key in this file, and leaving it out is
+the mistake this whole kit is named after.** A hook that cannot start — missing path, wrong
+interpreter, syntax error, no read permission — is a **non-blocking** error by default. Claude
+Code surfaces a notice and then **proceeds with the command**. That is a guard failing OPEN: the
+one moment you most need the refusal is the moment it is least likely to happen, and the notice
+scrolls past in a transcript nobody re-reads.
+
+With `onFailure: "block"`, a guard that cannot run refuses instead of allowing. The cost is real
+and worth stating: break the script and you block your own `Bash` calls until you fix it. That is
+the correct direction for a control whose entire purpose is refusal, and it is loud, which is
+better than silent. **Set it on every `command` and `http` hook whose job is to refuse
+something.**
+
+Do **not** set it on `SessionStart`: that event cannot block, so the key has nothing to act on
+there.
+
 `"matcher": "Bash"` and `/usr/bin/python3` rather than a `PATH` python3 are both deliberate,
 for the reasons in `project-settings.md` — the same wiring, one level up.
 

@@ -65,6 +65,12 @@ trusted:
   the command and refuses blanket stages — `git add -A`, `git add .`, `git commit -a` and the
   ten further forms listed in its docstring. It exits 2 to refuse and 0 to allow, writes its
   reason to stderr, and sends nothing anywhere.
+- **It is registered with `"onFailure": "block"`,** which is the whole name of this project
+  expressed as one key. A hook whose script is missing, unreadable or broken is a *non-blocking*
+  error by default: Claude Code reports it and **runs your command anyway**. So the default
+  behaviour of a guard that cannot start is to let the thing through. `onFailure: "block"` inverts
+  that — if the guard cannot run, the action is refused. Every registration in this repository
+  sets it, including the one this repository uses on itself.
 - **No network access, from anything.** No telemetry, no fetches, no uploads.
 - **No MCP servers.** This plugin declares none.
 - **Everything else is text.** Skills and templates are read by Claude; they execute nothing.

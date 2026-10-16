@@ -6,7 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/refuse-dangerous-staging.py\""
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/refuse-dangerous-staging.py\"",
+            "onFailure": "block"
           }
         ]
       }

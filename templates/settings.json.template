@@ -25,7 +25,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/usr/bin/python3 <CLAUDE_HOME>/hooks/refuse-dangerous-staging.py"
+            "command": "/usr/bin/python3 <CLAUDE_HOME>/hooks/refuse-dangerous-staging.py",
+            "onFailure": "block"
           }
         ]
       }
