@@ -5,6 +5,12 @@
   "description": "Six written standards for building agent tooling and five working skills, plus a blanket-staging guard that ships registered rather than as a template. Installing the plugin gives you eleven skills and one PreToolUse hook that refuses `git add -A`, `git add .` and `git commit -a`. A hook verifier is included because registration fails open: a guard whose script is missing never warns and never fires, so a session with a broken guard looks exactly like a session with a working one.",
   "license": "MIT",
   "icon": ".claude-plugin/icon.png",
+  "homepage": "https://github.com/julie-elkins/fail-closed",
+  "repository": "https://github.com/julie-elkins/fail-closed",
+  "documentationUrl": "https://github.com/julie-elkins/fail-closed#readme",
+  "supportUrl": "https://github.com/julie-elkins/fail-closed/issues",
+  "privacyPolicyUrl": "https://github.com/julie-elkins/fail-closed/blob/main/PRIVACY.md",
+  "termsOfServiceUrl": "https://github.com/julie-elkins/fail-closed/blob/main/LICENSE",
   "keywords": [
     "hooks",
     "guardrails",
