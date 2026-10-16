@@ -1,8 +1,17 @@
 {
   "name": "fail-closed",
+  "displayName": "Fail Closed",
   "version": "0.1.0",
-  "description": "Six written standards for building agent tooling and five working skills, plus the hook and settings templates a repository needs before an agent is trusted in it. Installing the plugin gives you the eleven skills; the two hooks ship as templates you copy per repository, because a guard registered without being probed is not a guard.",
+  "description": "Six written standards for building agent tooling and five working skills, plus a blanket-staging guard that ships registered rather than as a template. Installing the plugin gives you eleven skills and one PreToolUse hook that refuses `git add -A`, `git add .` and `git commit -a`. A hook verifier is included because registration fails open: a guard whose script is missing never warns and never fires, so a session with a broken guard looks exactly like a session with a working one.",
   "license": "MIT",
+  "keywords": [
+    "hooks",
+    "guardrails",
+    "permissions",
+    "standards",
+    "git-safety",
+    "observability"
+  ],
   "author": {
     "name": "Julie Elkins"
   }

@@ -209,8 +209,8 @@ else
     fi
     INSTALLED+=("settings.json")
     note "installed  settings.json"
-    note "ACTION NEEDED: replace <YOUR_BEDROCK_PROFILE> with your own AWS profile name."
-    note "               Claude Code will not start correctly until you do."
+    note "NOTE: the settings.json written here sets no env block, so your existing"
+    note "      authentication is unchanged. See templates/settings.md to add one."
 fi
 
 # ---------------------------------------------------------------------------------

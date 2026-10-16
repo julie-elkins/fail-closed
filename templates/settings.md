@@ -5,34 +5,32 @@ parses `~/.claude/settings.json` as JSON; a template carrying `//` comments woul
 break when copied verbatim or teach you to hand-strip it, and a config that fails to parse
 degrades quietly into "my settings did nothing". So the annotations live here instead.
 
-Three placeholders must be replaced. `install.sh` does all three; if you copy by hand, do them
-yourself:
+One placeholder must be replaced. `install.sh` does it; if you copy by hand, do it yourself:
 
 | Placeholder | Replace with |
 |---|---|
-| `<YOUR_BEDROCK_PROFILE>` | your own AWS profile name — an account you can actually call Bedrock in |
-| `<HOME>` | your absolute home directory, e.g. `/Users/<alias>` |
-| `<CLAUDE_HOME>` | the directory this file lives in, normally `/Users/<alias>/.claude` |
+| `<CLAUDE_HOME>` | the directory this file lives in, normally `/Users/<you>/.claude` |
 
-**Neither path is shell-expanded.** Not `~`, not `$HOME`, not `${HOME}`. A `~` in either place
-does not error — it resolves to nothing, and the thing it pointed at is simply absent.
+**That path is not shell-expanded.** Not `~`, not `$HOME`, not `${HOME}`. A `~` there does not
+error — it resolves to nothing, the hook is simply never registered, and nothing says so. That
+is the fail-open case this kit is named after, in the one file that configures it.
 
-They are two placeholders rather than one because they are two different directories as soon
-as `CLAUDE_HOME` is overridden, which is how `install.sh` is tested. Collapsing them writes a
+It is a placeholder distinct from `$HOME` because the two are different directories as soon as
+`CLAUDE_HOME` is overridden, which is how `install.sh` is tested. Collapsing them writes a
 scratch install's hook path into the installer's real home: a file that inspects clean while
 registering a hook that run never placed.
 
 ## `env`
 
-Routes Claude Code at Bedrock rather than the public API, which is what makes it usable on
-internal work at all.
+**The shipped template sets no `env` block, deliberately.** Claude Code authenticates however
+you already authenticate, and a template that presumes one provider is wrong for everyone
+else. If you route Claude Code through a cloud provider, add that provider's documented
+variables to an `env` block yourself — and note that whatever names a credential or a profile
+there is read from *your* machine, so it is the one part of this file that can never be copied
+from somebody else's.
 
-`AWS_PROFILE` is the one line that cannot be copied. It names a profile in *your*
-`~/.aws/config`, in an account where *you* have Bedrock invoke permission. Copying someone
-else's profile name gives you a client that authenticates as nobody and fails on the first
-message with a credentials error that looks like a Claude Code bug.
-
-`ANTHROPIC_MODEL` and `ANTHROPIC_SMALL_FAST_MODEL` pin the main and the background model.
+If you do add an `env` block, `ANTHROPIC_MODEL` and `ANTHROPIC_SMALL_FAST_MODEL` pin the main
+and the background model.
 Pin them explicitly rather than relying on the default: the small/fast model is what runs
 file summarization and other cheap background calls, and leaving it unset has at times
 meant paying main-model rates for them. Model ids move — check the current ones before
@@ -74,9 +72,10 @@ Preferences, no consequences. Change freely.
 Set to `"default"`: reads run without asking, everything else prompts. **The reason this key
 is in the template at all is that leaving it out stopped meaning what it reads as.** Claude
 Code 2.1.283 *"changed interactive sessions on third-party providers or with telemetry off to
-start in auto mode when no permission mode is configured"*, and `CLAUDE_CODE_USE_BEDROCK=1`
-in the `env` block above makes every session from this template a third-party-provider
-session. Unset, this file starts you in `auto` — *"Claude Code runs everything, with
+start in auto mode when no permission mode is configured"*. **Two ordinary choices put you in
+that bucket**: routing Claude Code through a cloud provider, which is what an `env` block
+usually does, or turning telemetry off. Either one, with this key unset, starts you in `auto` —
+*"Claude Code runs everything, with
 background safety checks"* — on a config whose whole `permissions.allow` discipline is built
 around reads-only. The same release note confirms the fix: *"`permissions.defaultMode` still
 overrides it."*

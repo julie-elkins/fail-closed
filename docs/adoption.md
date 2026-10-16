@@ -11,9 +11,10 @@ except where it says so, so a stall in one place does not block the rest.
 ./install.sh
 ```
 
-Then replace `<YOUR_BEDROCK_PROFILE>` in `~/.claude/settings.json` with your own AWS profile
-name. Nothing else works until this is right, and the failure looks like a Claude Code bug
-rather than a config error.
+The shipped `settings.json` sets no `env` block, so Claude Code keeps authenticating however it
+already did. If you route it through a cloud provider, add that provider's documented variables
+yourself — and expect the failure mode to look like a Claude Code bug rather than a config
+error when one of them is wrong.
 
 **2. Start a fresh session and confirm the skills are there.** Run `/coding-standards`. If it
 does not load, the skills did not install — check `ls ~/.claude/skills/`.

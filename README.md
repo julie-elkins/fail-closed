@@ -44,14 +44,11 @@ permission grants. It is idempotent — a second run reports everything unchange
 up anything it replaces to a timestamped directory it names. Run `./install.sh --dry-run`
 first to see the plan.
 
-If you installed from a clone, edit one line:
-
-```
-open ~/.claude/settings.json
-```
-
-The shipped settings file routes Claude Code at Bedrock. Replace `<YOUR_BEDROCK_PROFILE>` with
-your own profile name, or delete the whole `env` block if you authenticate another way.
+There is nothing you have to edit afterwards, which was not true of earlier versions of this
+file. The shipped settings file sets **no `env` block**: Claude Code keeps authenticating however it
+already does, and nothing here reads a credential or a cloud profile from your machine. If you
+route Claude Code through a cloud provider, add that provider's documented variables yourself —
+`templates/settings.md` says which part of that block can never be copied from someone else.
 
 Start a new session and confirm the skills loaded:
 
