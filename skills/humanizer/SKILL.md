@@ -2,8 +2,8 @@
 name: humanizer
 description: >-
   Strip the tells of machine-written prose from a draft without flattening it into corporate
-  mush. Use on anything with a reader — a README, a design doc, a CR description, a wiki
-  page, a LinkedIn post, a résumé bullet, a meeting doc. It works by SCANNING for structural
+  mush. Use on anything with a reader — a README, a design doc, a pull request description, a
+  wiki page, a LinkedIn post, a résumé bullet, a meeting note. It works by SCANNING for structural
   patterns and triaging each hit in context, never by running a blacklist of words. It does
   NOT make prose shorter, simpler or friendlier, and it must not touch identifiers, wire
   values, quoted output, or a dense technical register the repo uses on purpose. It cannot

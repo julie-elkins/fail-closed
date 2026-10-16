@@ -5,7 +5,7 @@
 # THREE PROPERTIES, IN ORDER OF HOW MUCH THEY MATTER.
 #
 #   1. It refuses to clobber. An existing settings.json is YOUR config -- it holds your
-#      Bedrock profile, your accumulated permission grants and your plugin choices. This
+#      authentication, your accumulated permission grants and your plugin choices. This
 #      script will not overwrite it. It prints what it would have written and stops.
 #   2. It is idempotent. Run it twice and the second run reports "unchanged" for
 #      everything. A script you are afraid to re-run is a script you stop running.

@@ -2,9 +2,9 @@
 name: fact-check
 description: >-
   Verify the checkable claims in a draft against the systems that actually hold the answer —
-  internal tickets, code, wikis, package and pipeline state, org data, AWS docs — before it
-  goes to a reviewer, a CR, a meeting or an external reader. Use on design docs, CR
-  descriptions, meeting docs, threat models, criterion write-ups, résumé and application
+  your tracker, the code, your documentation, build and deploy state, vendor docs — before
+  it goes to a reviewer, a pull request, a meeting or an external reader. Use on design docs,
+  pull request descriptions, meeting notes, threat models, write-ups, résumé and application
   material, and any prose quoting a figure, a date, a schema name, a ticket state or a
   person's role. It returns a per-claim verdict of VERIFIED, CONTRADICTED or NOT CHECKABLE
   FROM HERE and never collapses the third into the first. It is read-only: it posts,
@@ -13,8 +13,8 @@ description: >-
 
 # Fact check
 
-Most wrong claims in an internal draft are not wrong about the world — they are wrong about
-**internal state that has moved since the sentence was written.** A generic web fact-checker
+Most wrong claims in a working draft are not wrong about the world — they are wrong about
+**state inside your own systems that has moved since the sentence was written.** A generic web fact-checker
 cannot see any of it. This skill checks the things that actually rot.
 
 ## The three verdicts, and the one that matters
