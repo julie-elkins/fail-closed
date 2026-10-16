@@ -22,14 +22,19 @@ claim you can check rather than take on trust, and this page says how.
 No file in this plugin opens a socket, and none can. The check is one line:
 
 ```
-grep -rnE '^\s*(import|from)\s+(requests|urllib|socket|http|httpx|ftplib|smtplib)|subprocess|os\.system|os\.popen|curl|wget' .
+grep -rnE '^[[:space:]]*(import|from)[[:space:]]+(requests|urllib|socket|http|httpx|ftplib|smtplib)' .
 ```
 
-It matches exactly three things, none of them an import: the test in
-`tests/test_session_report.py` that asserts those names are absent, one sentence of prose
-in `skills/coding-standards/SKILL.md`, and the line above in this file. No shipped file
-imports any of them. There is no telemetry, no analytics, no update check, and no remote
-configuration.
+That returns nothing: no shipped file imports a networking module. Checking for
+process-spawning names as well (`subprocess`, `os.system`, `os.popen`) matches only two
+things, neither of them an import — the test in `tests/test_session_report.py` that
+asserts those names are absent, and one sentence of prose in
+`skills/coding-standards/SKILL.md`. There is no telemetry, no analytics, no update check,
+and no remote configuration.
+
+The shell scripts are worth checking by the same method rather than by reading, and
+`install.sh` invokes no download tool of any kind — it only copies files you already have
+on disk.
 
 ## No credentials
 
