@@ -25,12 +25,14 @@ No file in this plugin opens a socket, and none can. The check is one line:
 grep -rnE '^[[:space:]]*(import|from)[[:space:]]+(requests|urllib|socket|http|httpx|ftplib|smtplib)' .
 ```
 
-That returns nothing: no shipped file imports a networking module. Checking for
-process-spawning names as well (`subprocess`, `os.system`, `os.popen`) matches only two
-things, neither of them an import — the test in `tests/test_session_report.py` that
-asserts those names are absent, and one sentence of prose in
-`skills/coding-standards/SKILL.md`. There is no telemetry, no analytics, no update check,
-and no remote configuration.
+That returns nothing: **no shipped file imports a networking module.** The same holds for
+the process-spawning names — nothing here shells out either.
+
+Run those checks yourself rather than counting the hits quoted in any document, including
+this one: a page that names a pattern is itself a match for it, so a stated hit count goes
+stale the moment the prose changes. What is stable is the property — **no import, and no
+shell-out, in any file this plugin ships.** There is no telemetry, no analytics, no update
+check, and no remote configuration.
 
 The shell scripts are worth checking by the same method rather than by reading, and
 `install.sh` invokes no download tool of any kind — it only copies files you already have
