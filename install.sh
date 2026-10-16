@@ -172,8 +172,8 @@ fi
 # ---------------------------------------------------------------------------------
 # 3. settings.json.
 #
-# Never overwritten, not even with --force. This file is where your AWS profile and your
-# accumulated permission grants live; replacing it is the one action in this script that
+# Never overwritten, not even with --force. This file is where your authentication and
+# your accumulated permission grants live; replacing it is the one action in this script that
 # could cost you something you cannot get back by re-running anything.
 # ---------------------------------------------------------------------------------
 say ""
