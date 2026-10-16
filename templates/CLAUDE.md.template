@@ -1,0 +1,163 @@
+# <REPO NAME>
+
+<!--
+  TEMPLATE. Replace every <ANGLE BRACKET> and delete every HTML comment before
+  committing. The comments explain what belongs in each section and, more usefully,
+  what does NOT -- a section filled with the wrong kind of content is worse than an
+  absent one, because it reads as covered.
+
+  THE SPLITTING RULE. Keep this file to what is true whenever anyone touches the
+  repo. The moment a section is only relevant while working in specific paths, move
+  it out to a companion file under docs/ and leave a one-line pointer in "Read
+  order". Two repos arrived at this independently -- one by splitting a 350-line
+  CLAUDE.md into six companions, one via a different tool's path-matched steering
+  files -- and the reason is the same: rules that load when they do not apply train
+  the reader to skim, and the section that gets skimmed is the one that mattered.
+
+  In Claude Code the mechanisms for path-scoping are (a) a nested CLAUDE.md in the
+  subdirectory it governs, and (b) a skill whose `description` is precise enough
+  that it loads only for the relevant task. There is no `fileMatch` frontmatter. If
+  this repo also carries instruction files for another coding assistant, note that
+     Claude Code does NOT read
+  those -- keep the content in one place and a pointer in the other, or they will
+  disagree within a month.
+
+  AGENTS.md IS NOT PROJECT INSTRUCTIONS, and an earlier version of this comment said
+  it was. Claude Code preloads CLAUDE.md, .claude/CLAUDE.md and CLAUDE.local.md; it
+  does not preload AGENTS.md. Measured against 2.1.278 on 2026-09-19 with the
+  file-reading tools disabled, in a git repository, with `instructionFiles` unset and
+  with both of its `agents-md` values -- unloaded in all three. So this file is a
+  briefing, not a containment control, and "someone could land an AGENTS.md" is not an
+  argument for writing it. The argument is the ordinary one: an agent that has to infer
+  the rules from the tree infers them after the first command rather than before it.
+
+  What IS true about AGENTS.md is weaker and still worth knowing: a session reads it,
+  unprompted and reliably, the first time it is asked anything about the project. So
+  untrusted content there does reach the model -- as a file the agent chose to open,
+  which it weighs as a file rather than as instruction.
+
+  THE PROBE THAT SETTLES THIS IS THE POINT, because the obvious one is confounded.
+  Drop a marker fact in the candidate file, ask a question only that file answers, and
+  a plain `claude -p` will answer correctly whether or not the file was preloaded --
+  the agent simply opens it, and in a near-empty probe directory it is the only thing
+  to open. Disable the file-reading tools and the two cases separate. Note that
+  `--disallowedTools` is variadic, so it eats a positional prompt: pass the prompt on
+  stdin. And use a retrieval question, not a behavioural override like "always reply
+  X", which the model follows unreliably enough to produce both answers from one
+  directory.
+
+  Two things that survive the correction. In a public repo where the content of this
+  file should not itself be published, put it at .claude/CLAUDE.md and gitignore that
+  path -- precedence is identical, nothing ships, and ignoring beats merely leaving it
+  untracked. And the `instructionFiles` setting exists -- `claude-md`,
+  `claude-md-or-agents-md` (documented default), `claude-md-and-agents-md`,
+  `managed-only`, with the older `projectInstructions` spelling still read under a
+  warning -- but on 2.1.278 neither `agents-md` value changed what was loaded, so treat
+  the documented behaviour as a claim to re-probe on your own version rather than a
+  lever you can rely on.
+-->
+
+<!-- One paragraph, no heading: what this is and who calls it. Someone who has
+     never seen the repo should be able to decide from this whether it is relevant
+     to them. -->
+<WHAT THIS IS>
+
+## Read order
+
+<!-- Only if this file has companions. List them with a one-line "read this when"
+     so a reader can skip what does not apply. Delete this section if there is
+     nothing to point at yet. -->
+1. This file.
+2. `docs/DESIGN_PRINCIPLES.md` — the numbered rules. Read before designing or
+   changing behaviour.
+3. `docs/OPEN_GAPS.md` — known gaps. **Descriptive, not prescriptive.**
+
+## Status
+
+<!-- Where the work actually is, in absolute dates. "Mid-build, M2 of 5" is useful;
+     "in progress" is not. Name what is blocked and on whom -- work in this role is
+     regularly blocked on a person rather than on engineering, and that is the fact
+     a future session most needs. -->
+<STATUS, WITH ABSOLUTE DATES>
+
+## Ownership
+
+<!-- Owner, backup owner, and whatever ownership record your organisation keeps.
+     A repo with one name on it has
+     a bus factor of one; say so out loud rather than leaving it to be discovered. -->
+<OWNER> · backup: <BACKUP OWNER> · ownership record: <OWNERSHIP RECORD>
+
+## Environment
+
+<!-- The commands to get from a fresh clone to a green suite. Real, runnable, and
+     verified by running them -- not reconstructed from memory. Include the venv
+     path and any PYTHONPATH the repo needs, because that is the first thing that
+     breaks for someone else. -->
+```
+<SETUP COMMANDS>
+```
+
+## Invariants that results depend on
+
+<!-- NUMBERED, because they get cited by number in commits and reviews. Each one is
+     a property that must hold for the output to mean anything -- not a style
+     preference. The test that pins each one goes in the same line where there is
+     one; where there is not, say "not enforced" rather than leaving it ambiguous.
+
+     Good invariants are falsifiable and surprising. "Code should be clean" is
+     neither. "`package.server` must import without `package.ingest` being
+     importable" is both, and names a containment boundary a reader would otherwise
+     violate by tidying up an import. -->
+1. <INVARIANT> — pinned by `<TEST>`.
+2. <INVARIANT> — **not enforced**; <why, and what would enforce it>.
+
+## Things measured untrustworthy
+
+<!-- The section that pays for itself. Anything you have MEASURED to be wrong,
+     incomplete or misleading -- a tool whose docstring overpromises, a figure that
+     does not mean what its name says, an upstream that returns a partial result
+     that looks complete. Give the measurement and its date.
+
+     Without this section every future session re-derives the same disappointment.
+     With it, the silence of a broken check stops being read as a clean result. -->
+- **<THING>** — <what it actually does, measured <DATE>>. <What it therefore cannot
+  license you to say.>
+
+## Conventions
+
+<!-- Only what is specific to THIS repo. The general Python conventions live in
+     /coding-standards; duplicating them here guarantees the two copies disagree.
+     Point at the skill and list only the local deltas: em dash vs `--`, spelling,
+     a naming grammar, a module that may not import another. -->
+- General Python conventions: `/coding-standards`. Local deltas only below.
+- <LOCAL CONVENTION>
+
+## Commands
+
+<!-- One bare command per line. No `&&` chaining and no `!` prefix: a chained or
+     prefixed recipe pasted into a zsh prompt can silently run nothing, which looks
+     exactly like a command that ran and found nothing. -->
+```
+<COMMAND>
+<COMMAND>
+```
+
+## Git
+
+<!-- Branch protection, what may be pushed where, and the staging discipline. If
+     `.claude/hooks/refuse-dangerous-staging.py` is installed, say so and say what
+     it cannot see -- a control that is over-trusted is a control that has been
+     turned into a habit again. -->
+- Stage by path. Never `git add -A`. Enforced by
+  `.claude/hooks/refuse-dangerous-staging.py`, which sees the Bash tool only — not
+  your own terminal, not Write/Edit, and not `git add -f` against an unrecognised
+  path.
+- <BRANCH / PUSH RULES>
+
+## Deliberately out of scope
+
+<!-- What this repo will NOT do, and why. This is the section that prevents a future
+     session from helpfully building the thing you decided against, and the one
+     readers trust most. Include things you tried and abandoned, with the measured
+     reason. -->
+- <NOT DOING> — <why>.

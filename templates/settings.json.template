@@ -1,0 +1,41 @@
+{
+  "env": {
+    "CLAUDE_CODE_USE_BEDROCK": "1",
+    "AWS_PROFILE": "<YOUR_BEDROCK_PROFILE>",
+    "AWS_REGION": "us-west-2",
+    "ANTHROPIC_MODEL": "us.anthropic.claude-opus-5",
+    "ANTHROPIC_SMALL_FAST_MODEL": "us.anthropic.claude-haiku-4-5-20251001-v1:0"
+  },
+  "theme": "dark",
+  "model": "opus",
+  "permissions": {
+    "defaultMode": "default",
+    "deny": [
+      "Bash(git add -A*)",
+      "Bash(git add --all*)",
+      "Bash(git add :/*)",
+      "Bash(git add .)",
+      "Bash(git add ./)",
+      "Bash(git add -u)",
+      "Bash(git add --update)",
+      "Bash(git stage -A*)",
+      "Bash(git stage --all*)",
+      "Bash(git stage .)",
+      "Bash(git commit -a*)",
+      "Bash(git commit --all*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/python3 <CLAUDE_HOME>/hooks/refuse-dangerous-staging.py"
+          }
+        ]
+      }
+    ]
+  }
+}

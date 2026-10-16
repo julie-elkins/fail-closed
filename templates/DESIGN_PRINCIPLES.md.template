@@ -1,0 +1,66 @@
+# Design principles — <REPO NAME>
+
+<!--
+  TEMPLATE. This is the companion file that carries the numbered rules, so CLAUDE.md
+  can stay short enough to be read every session. Split to here once CLAUDE.md's
+  invariants section grows past what a reader will absorb, or once the rules are only
+  relevant while designing rather than while making any change.
+
+  A principle earns its place here only if it is FALSIFIABLE and would not be guessed.
+  "Validate inputs" is neither. "Refusal is a result, not an exception -- and the
+  channel is chosen by REMEDY, not by severity" is both, and it changes the shape of
+  every function that can fail.
+
+  Each principle: the rule, then WHY, then what the wrong choice costs. The third part
+  is the one that survives contact with a future reader who disagrees with you.
+-->
+
+## 1. <PRINCIPLE, AS AN IMPERATIVE>
+
+<The rule in one or two sentences.>
+
+**Why:** <the reasoning, including anything measured>
+
+**What the wrong choice costs:** <the concrete failure, ideally one that has happened>
+
+<!--
+  Principles that recur across agent-tooling repos and are worth considering for yours.
+  Delete the ones that do not apply rather than keeping them as filler.
+
+  - REFUSAL IS A RESULT, NOT AN EXCEPTION. Return {error, message, guidance}; the
+    guidance names the cheapest correction rather than restating the rule. A caller --
+    especially an agent -- reports a raised refusal as a failure of the whole task.
+
+  - CHOOSE THE REFUSAL CHANNEL BY REMEDY, NOT BY SEVERITY. Two failures that need
+    different fixes are different channels even when they are equally bad. If a remedy
+    is "change local configuration", it cannot share a channel with "pass a different
+    argument", because no other channel can ask for the first.
+
+  - ABSENCE IS NEVER REPORTED AS CLEANLINESS. An empty finding list can mean the check
+    ran and found nothing, or that the column was missing and it never ran. Publish
+    which, every time -- `checks_run`, `columns_unavailable`, `checks_skipped`.
+
+  - EVERY THRESHOLD NAMES WHOSE IT IS. FIELD CONVENTION / MODELLING ASSUMPTION /
+    MEASURED <date> / NOT ESTABLISHED. An unlabelled number is a defect, and
+    NOT ESTABLISHED is an honest label rather than a gap.
+
+  - THE TOOL DOES NOT JUDGE; THE HUMAN DOES. Return located signals with what each
+    one shows and does not show. A signal relayed as a defect is a judgement the tool
+    was not entitled to make.
+
+  - EVERY RESULT CARRIES DIAGNOSTICS. Freshness, source, caveats -- attached to the
+    payload, not left in a docstring where the caller will not see them.
+
+  - COUNT BEFORE YOU FILTER. A count taken after a limit or a filter is a different
+    number from the one its name implies, and it will be quoted as a total.
+
+  - THE SERVER COMPOSES EVERY QUERY. Caller-supplied strings select from a whitelist;
+    they never reach a query, a path or a URL shape.
+
+  - FAIL FAST UPSTREAM, DEGRADE LATERALLY. Direction, not severity: a bad input stops
+    the pipeline, a missing optional signal continues with the absence recorded.
+-->
+
+## 2. <PRINCIPLE>
+
+...

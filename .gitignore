@@ -1,0 +1,17 @@
+# Nothing in this repository is built, so an entry here is about what must never
+# ARRIVE in the tree rather than about generated output.
+
+.DS_Store
+
+# A real settings file copied to the repo root to diff against the template.
+# `~/.claude/settings.json` holds a user's AWS profile and their accumulated
+# permission grants; `install.sh` refuses to overwrite it for that reason, and it
+# has no business being committed here either. Anchored with a leading slash on
+# purpose: `templates/settings.json.template` and `.claude/settings.json` are both
+# tracked deliberately, and an unanchored `settings.json` would match the second.
+/settings.json
+settings.local.json
+
+# `.claude/settings.json` is TRACKED, deliberately -- see the Git section of
+# CLAUDE.md. Only per-machine overrides are ignored.
+.claude/settings.local.json
