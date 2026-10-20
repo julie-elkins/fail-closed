@@ -91,9 +91,14 @@ reason string says whether it did so for the right reason.
 6. **Every `PreToolUse` registration in this repository must set `"onFailure": "block"`, and
    there are FOUR of them.** `hooks/hooks.json` (what the plugin registers), `.claude/settings.json`
    (what this repo runs on itself), `templates/settings.json.template` and
-   `templates/project-settings.json.template`. **Without that key a guard fails OPEN:** a hook
-   whose script is missing or broken is a *non-blocking* error, so Claude Code reports it and runs
-   the command anyway. Shipping a refusal guard without it is this repository contradicting its own
+   `templates/project-settings.json.template`. **Without that key the outcome is decided by the
+   hook's exit code rather than by you**, and "fails OPEN" was too simple. Measured on v2.1.304: a
+   hook that **crashes** exits 1 and the command **runs**; a *missing* script exits 2 under
+   `python3` and the command is **refused**, or 127 under `bash` or a direct invocation and the
+   command **runs**. So one missing file gives opposite results depending on the launcher, and this
+   repo launches through `python3`. Accidentally refusing is not a safe place either: a moved file
+   and a real refusal become indistinguishable, so the guard's failure stops being noticeable.
+   `onFailure: "block"` refuses in all of those cases. Shipping a refusal guard without it is this repository contradicting its own
    name in the one file that configures it — which is exactly what it did until 2026-10-16, while
    the author's own four live guards all had it set. **Not enforced**; the check is
    `grep -L onFailure hooks/hooks.json .claude/settings.json templates/*.json.template`, which must

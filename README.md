@@ -66,11 +66,25 @@ trusted:
   ten further forms listed in its docstring. It exits 2 to refuse and 0 to allow, writes its
   reason to stderr, and sends nothing anywhere.
 - **It is registered with `"onFailure": "block"`,** which is the whole name of this project
-  expressed as one key. A hook whose script is missing, unreadable or broken is a *non-blocking*
+  expressed as one key. A hook that **crashes** — a script that is there and raises — is a *non-blocking*
   error by default: Claude Code reports it and **runs your command anyway**. So the default
   behaviour of a guard that cannot start is to let the thing through. `onFailure: "block"` inverts
   that — if the guard cannot run, the action is refused. Every registration in this repository
   sets it, including the one this repository uses on itself.
+
+  **An earlier version of this paragraph said "missing, unreadable or broken", and that was
+  imprecise in a way worth correcting rather than quietly fixing.** A hook refuses by exiting 2,
+  so what happens to a *missing* script depends on what you launched it with. Measured on
+  v2.1.304: `python3 <missing>.py` makes **python** exit 2, and the call is **refused**;
+  `bash <missing>.sh`, or a missing executable invoked directly, exits 127 and the call **runs**.
+  One missing file, opposite outcomes, decided by the word in front of the path — and this
+  repository registers through `python3`, so its own missing-file case already refuses.
+
+  **Neither default is a good place to be, including the one that refuses.** If a moved file and
+  a real refusal produce the same outcome, you cannot tell them apart, so you lose the ability to
+  notice the guard broke at the moment it breaks. The crash case is the one with no silver lining
+  at all: exit 1, the call runs. `onFailure: "block"` was measured to refuse in every one of those
+  cases, which is why it is set here rather than left to the launcher.
 - **No network access, from anything.** No telemetry, no fetches, no uploads.
 - **No MCP servers.** This plugin declares none.
 - **Everything else is text.** Skills and templates are read by Claude; they execute nothing.
