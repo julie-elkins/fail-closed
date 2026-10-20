@@ -24,13 +24,32 @@ sets: the plugin gives you the skills and the staging guard, `install.sh` additi
 user-level `settings.json`. Two channels that disagree is worse than one channel, so check
 `tools/verify-hooks.py` after either.
 
-## No test suite, no linter, no CI
+## One test file, no linter, no CI
 
-Deliberate, and the reasoning is in `/coding-standards` rather than here. Short form: a config
-describing a standard the tree has never met is worse than no config, because it implies a
-convention that is not in force. One internal package measured this — black, isort, flake8 and
-mypy all declared and configured, never invoked, `black --check` reporting 162 of 192 files
-would be reformatted.
+**This section was headed "No test suite, no linter, no CI", and the first third of that was
+wrong.** `CLAUDE.md` has always named the exception — `tests/test_session_report.py` travels
+with the one tool complex enough to need it — and this page did not, so the two disagreed. A
+reader trusting this page would have concluded there was nothing to run.
+
+There is. It carries 14 tests, and **it needs no dependency**, which matters because every
+other instruction here pins `/usr/bin/python3`:
+
+```
+python3 tests/test_session_report.py
+```
+
+That prints a line per test and a total. `python3 -m pytest tests/test_session_report.py -q`
+works too where pytest is installed, and the macOS system Python does not have it — so the bare
+form above is the one that always works, and nothing in this repository requires pytest. The
+load-bearing test is the one its own docstring names, `test_sentinel_never_escapes`: it checks
+that the report is not itself the leak.
+
+What is genuinely absent is a *suite* — broad coverage, a runner config, a gate — plus any
+linter, formatter or type-checker, and that part is deliberate. The reasoning is in
+`/coding-standards` rather than here. Short form: a config describing a standard the tree has
+never met is worse than no config, because it implies a convention that is not in force. One
+internal package measured this — black, isort, flake8 and mypy all declared and configured,
+never invoked, `black --check` reporting 162 of 192 files would be reformatted.
 
 The consequence you should hold onto: **the invariants in `CLAUDE.md` are enforced by hand.**
 Re-verify them after touching `install.sh`.
